@@ -12,7 +12,7 @@ function [Q] = fix_point_iter(P, Omega, N, m, sigma_hat )
     max_iter = 30;         % max iterations for stopping criteria
     curr_iter = 0;
     curr_Q = zeros(N,m);
-    Proj_omega
+    Proj_omega ???
     
     while norm(curr_Q-prev_Q, 'fro')<epsilon && curr_iter<max_iter
         R = curr_Q - tau* Proj_omega(curr_Q - P);
@@ -20,7 +20,7 @@ function [Q] = fix_point_iter(P, Omega, N, m, sigma_hat )
        
         % SVT on R
         [U, S, V] = svd(R);
-        S_tau = diag(S)-tau;
+        S_tau = diag(S)-(tau*mu);
         S_tau(S_tau<0) = 0;
         S_tau = diag(S_tau);
         curr_Q = U*S_tau*V';
