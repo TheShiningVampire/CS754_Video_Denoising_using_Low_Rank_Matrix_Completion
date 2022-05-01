@@ -2,8 +2,9 @@ clear;
 close all;
 clc;
 
-% Add path for video reader function
+% Add path for video reader function and the utils folder
 addpath('./yuv4mpeg2mov');
+addpath('./utils');
 
 %% Read the data (video file)
 [video_movie, video_info] = yuv4mpeg2mov('../Data/bus_cif.y4m');               % Read the video file
@@ -27,14 +28,34 @@ kappa = kappa/255;
 
 video_noisy = add_video_noise(video, num_frames, sigma, kappa, s);
 
-% Show the video frame
-figure; imshow(video(:,:,:,1)); title('Original Video Frame 1');
-figure; imshow(video_noisy(:,:,:,1)); title('Noisy Video Frame 1');
+% % Show the video frame
+% figure; imshow(video(:,:,:,1)); title('Original Video Frame 1');
+% figure; imshow(video_noisy(:,:,:,1)); title('Noisy Video Frame 1');
 
-% Write the noisy video to a file using the same video parameters as the original video using VideoWriter
-write_video(video_noisy, '../Data/bus_cif_noisy', video_info);
+% % Write the noisy video to a file using the same video parameters as the original video using VideoWriter
+% write_video(video_noisy, '../Data/bus_cif_noisy', video_info);
 
+K = 50;
+num_blocks = num_frames/K;
+patch_size = 8;
 
+for i = 1:num_blocks
+    block_start = (i-1)*K + 1;
+    block_end = i*K;
+    
+    block_video = video_noisy(:,:,:,block_start:block_end);         % Get the block of video
+                                                                    % block_video ~ [H x W x C x K]
+
+    % Get patches from the video
+    patches = get_patches(block_video, patch_size);       % patches ~ [patch_size^2*C x num_patches]
+
+    % Get similar patches for each patch
+    num_patches = size(patches,2);
+
+    for i = 1:num_patches
+        
+                                                                
+end
 
 
 
