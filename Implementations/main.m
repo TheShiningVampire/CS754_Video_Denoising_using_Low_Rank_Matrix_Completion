@@ -39,9 +39,15 @@ K = 50;
 num_blocks = num_frames/K;
 patch_size = 8;
 
-for i = 1:num_blocks
-    block_start = (i-1)*K + 1;
-    block_end = i*K;
+% for i = 1:num_blocks
+for i = 1:50
+    block_start = max(1, i-floor(K/2));
+    block_end = block_start + K - 1;
+
+    if block_end > num_frames
+        block_end = num_frames;
+        block_start = block_end - K + 1;
+    end
     
     block_video = video_noisy(:,:,:,block_start:block_end);         % Get the block of video
                                                                     % block_video ~ [H x W x C x K]
@@ -50,10 +56,10 @@ for i = 1:num_blocks
     patches = get_patches(block_video, patch_size);       % patches ~ [patch_size^2*C x num_patches]
 
     % Get similar patches for each patch
-    num_patches = size(patches,2);
+    % num_patches = size(patches,2);
 
-    for i = 1:num_patches
-        
+    % for i = 1:num_patches
+
                                                                 
 end
 
@@ -67,7 +73,8 @@ end
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%               FUNCTIONS                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%               FUNCTIONS                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function video = read_video(video_movie, num_frames)
