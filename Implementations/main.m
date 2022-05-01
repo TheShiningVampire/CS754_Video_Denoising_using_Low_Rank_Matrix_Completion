@@ -9,9 +9,9 @@ addpath('./yuv4mpeg2mov');
 [video_movie, video_info] = yuv4mpeg2mov('../Data/bus_cif.y4m');               % Read the video file
 
 % Get .cdata from the video_movie object
-num_frames = video_info.frameCount;                          % Get the number of frames in the video
+num_frames = video_info.frameCount;                     % Get the number of frames in the video
 
-video = read_video(video_movie, num_frames);                  % Read the video as a matrix
+video = read_video(video_movie, num_frames);            % Read the video as a matrix
                                                         % video ~ [height x width x channel x frame]
 
 % Noise parameters to the video
