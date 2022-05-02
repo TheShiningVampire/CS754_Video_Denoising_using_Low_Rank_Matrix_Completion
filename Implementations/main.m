@@ -14,7 +14,7 @@ tic;
 % Get .cdata from the video_movie object
 num_frames = video_info.frameCount;                     % Get the number of frames in the video
 
-scale_factor = 0.25;                                      % Scale factor for the video
+scale_factor = 1;                                      % Scale factor for the video
 video = read_video(video_movie, num_frames, scale_factor);            % Read the video as a matrix
                                                         % video ~ [height x width x channel x frame]
 
@@ -33,9 +33,9 @@ for parameter_index=1:2
     % Print method start message
     fprintf('Starting method for sigma = %d, kappa = %d, s = %d\n', sigma, kappa, s);
     
-    K = 2;                                         % Number of neighbourhood frames to consider
+    K = 10;                                         % Number of neighbourhood frames to consider
     num_patch_match = 5;                            % Number of patches to match in a frame
-    num_frames = 2;
+    num_frames = 20;
     patch_size = 8;
     threshold_omega = 50;                           % Threshold used for forming omega
     
