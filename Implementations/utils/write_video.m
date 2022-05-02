@@ -1,7 +1,7 @@
 function write_video(video, path, video_info, num_frames)
     % Convert the original video to unint8
     video = uint8(video);
-    writerObj = VideoWriter(path);
+    writerObj = VideoWriter(path, 'MPEG-4');
     writerObj.FrameRate = video_info.fps;
 
     open(writerObj);

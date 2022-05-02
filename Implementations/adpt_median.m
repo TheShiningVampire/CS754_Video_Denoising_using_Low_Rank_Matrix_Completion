@@ -2,7 +2,7 @@ function [out_img, med_omega] = adpt_median(image, max_winsize, if_omega_only)
 %   set if_omega_only to true for saving resources.
     [rows,cols,c] = size(image);
     out_img = image;
-    med_omega = zeros(size(image));
+    med_omega = ones(size(image));
     
     for x = 1:c
         for i = 1:rows
@@ -16,7 +16,7 @@ function [out_img, med_omega] = adpt_median(image, max_winsize, if_omega_only)
                     xmin = min(S,[],'all');
                     xmax = max(S,[],'all');
                     
-                    if ~if_omega_only
+                    if if_omega_only
                         break
                     end
                     
@@ -29,9 +29,9 @@ function [out_img, med_omega] = adpt_median(image, max_winsize, if_omega_only)
                 %second level
                 Uminus = image(i,j,x)-xmin;
                 Uplus = xmax-image(i,j,x);
-                if not (Uminus > 0 && Uplus > 0)
+                if ~(Uminus > 0 && Uplus > 0)
                     out_img(i,j,x) = xmed;
-                    med_omega(i,j,x) = 1;
+                    med_omega(i,j,x) = 0;
                 end
             end
         end
