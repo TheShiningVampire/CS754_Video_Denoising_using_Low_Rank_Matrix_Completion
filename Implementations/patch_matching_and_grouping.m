@@ -47,7 +47,7 @@ function [patch_matches, patch_indices, row_col_indices] =  patch_matching_and_g
         row_col_indices_t = [row_indices; col_indices]';
 
         % Append the row and column indices to the list of indices
-            row_col_indices = cat(3, row_col_indices, row_col_indices_t);
+        row_col_indices = cat(3, row_col_indices, row_col_indices_t);
     end
 
 
