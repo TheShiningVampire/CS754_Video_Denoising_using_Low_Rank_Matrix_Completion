@@ -12,41 +12,39 @@ addpath('./utils');
 % Get .cdata from the video_movie object
 num_frames = video_info.frameCount;                     % Get the number of frames in the video
 
-video = read_video(video_movie, num_frames);            % Read the video as a matrix
+scale_factor = 0.5;                                     % Scale factor for the video
+video = read_video(video_movie, num_frames, scale_factor);            % Read the video as a matrix
                                                         % video ~ [height x width x channel x frame]
 
 % Noise parameters to the video
-sigma = 30;
+sigma = 20;
 kappa = 15;
 s = 0.2;
 
 % Converting video from unit8 to double
 video = double(video);
-sigma = sigma;
-kappa = kappa;
-
 
 video_noisy = add_video_noise(video, num_frames, sigma, kappa, s);
 
 % % % Show the video frame
 % figure; imshow(uint8(video(:,:,:,1))); title('Original Video Frame 1');
 % figure; imshow(uint8(video_noisy(:,:,:,1))); title('Noisy Video Frame 1');
-% 
+
 % % Write the noisy video to a file using the same video parameters as the original video using VideoWriter
 % write_video(video_noisy, '../Data/bus_cif_noisy', video_info);
 
-K = 5;
+K = 2;
 num_patch_match = 5;
 % num_blocks = num_frames/K;
-num_frames = 10;
-patch_size = 8;
+num_frames = 3;
+patch_size = 16;
 threshold_omega = 50;                               % Threshold used for forming omega
 
 H = size(video,1);                                  % Height of the video
 W = size(video,2);                                  % Width of the video
-
-denoised_video = zeros(H,W,3,num_frames);
-denoised_video_counts = zeros(H,W,3,num_frames);
+C = size(video,3);                                  % No. of channels
+denoised_video = zeros(H,W,C,num_frames);
+denoised_video_counts = zeros(H,W,C,num_frames);
 
 for k = 1:num_frames
     disp(k);
@@ -63,7 +61,9 @@ for k = 1:num_frames
 
     % Get patches from the video
     for i = 1:H - patch_size + 1
+        disp(i);
         for j = 1:W - patch_size + 1
+            disp(j);
             patch = block_video(i:i+patch_size-1, j:j+patch_size-1, :, k);
             [P_jk, P_jk_indices, row_col_indices] = patch_matching_and_grouping(patch, patch_size, num_patch_match, block_video);
 
@@ -89,19 +89,30 @@ write_video(denoised_video, '../Data/bus_cif_denoised', video_info);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%               FUNCTIONS                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function video = read_video(video_movie, num_frames)
+function video = read_video(video_movie, num_frames, scale_factor)
     % Read the video
     video = [];
     for i = 1:num_frames
-        video = cat(4, video, video_movie(i).cdata);
+        video_frame = video_movie(i).cdata;
+        
+        % Resize the video
+        video_frame = imresize(video_frame, scale_factor);
+
+        video = cat(4, video, video_frame);
     end
 end
 
-function video = read_grayscale_video(video_movie, num_frames)
+function video = read_grayscale_video(video_movie, num_frames, scale_factor)
     % Read the video
     video = [];
     for i = 1:num_frames
-        video = cat(4, video, rgb2gray(video_movie(i).cdata));
+        video_frame = video_movie(i).cdata;
+        video_frame = rgb2gray(video_frame);
+
+        % Resize the video
+        video_frame = imresize(video_frame, scale_factor);
+
+        video = cat(4, video, video_frame);
     end
 end
 
