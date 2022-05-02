@@ -19,16 +19,17 @@ video = read_video(video_movie, num_frames, scale_factor);            % Read the
                                                         % video ~ [height x width x channel x frame]
 
 % Noise parameters to the video
-% sigma = 10;
-% kappa = 15;
-% s = 0.2;
-% noise_params = [[50 15 0.2], [10 25 0.2]];
-noise_params = [[50 15 0.2], [10 25 0.2]];
+sigmas = [50, 10];
+kappas = [15, 25];
+s = 0.2;
 data = 'Bus';
 % data = 'Coastguard';
 
-for i=1:2
-    [sigma, kappa, s] = noise_params(i);
+for parameter_index=1:2
+    sigma = sigmas(parameter_index);
+    kappa = kappas(parameter_index);
+    s = s;
+    
     % Print method start message
     fprintf('Starting method for sigma = %d, kappa = %d, s = %d\n', sigma, kappa, s);
     
@@ -50,7 +51,7 @@ for i=1:2
     
     
     % % Write the noisy video to a file using the same video parameters as the original video using VideoWriter
-    write_video(video_noisy, strcat('../Results/',data, '/noisy_video_param_set', num2str(i)), video_info, num_frames); 
+    write_video(video_noisy, strcat('../Results/',data, '/noisy_video_param_set', num2str(parameter_index)), video_info, num_frames); 
     
     H = size(video,1);                                  % Height of the video
     W = size(video,2);                                  % Width of the video
@@ -74,7 +75,7 @@ for i=1:2
         [median_filtered_video(:,:,:,k), med_filt_omega(:,:,:,k)] = adpt_median(video_noisy(:,:,:,k), max_window_size, false);
     end
 
-    write_video(median_filtered_video, strcat('../Results/', data, '/Median_Filtered_video_param_set_', string(i)), video_info, num_frames);
+    write_video(median_filtered_video, strcat('../Results/', data, '/Median_Filtered_video_param_set_', string(parameter_index)), video_info, num_frames);
 
     for k = 1:num_frames
         disp(k);
@@ -138,9 +139,9 @@ for i=1:2
                                                                 % denoised video counts to get the 
                                                                 % denoised video
 
-    write_video(denoised_video, strcat('../Results/', data, '/Denoised_video_param_set_', string(i)), video_info, num_frames);
+    write_video(denoised_video, strcat('../Results/', data, '/Denoised_video_param_set_', string(parameter_index)), video_info, num_frames);
     % Writing the PSNR values to a txt file
-    fileID = fopen(strcat('../Results/', data, '/PSNR_param_set_', string(i), '.txt'),'w');
+    fileID = fopen(strcat('../Results/', data, '/PSNR_param_set_', string(parameter_index), '.txt'),'w');
     fprintf(fileID,'Median filtered video: %f\n',PSNR(video, median_filtered_video, num_frames));
     fprintf(fileID,'Denoised video: %f\n',PSNR(video, denoised_video, num_frames));
 end
