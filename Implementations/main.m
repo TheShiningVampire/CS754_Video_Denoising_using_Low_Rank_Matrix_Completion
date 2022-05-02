@@ -2,9 +2,10 @@ clear;
 close all;
 clc;
 
-% Add path for video reader function and the utils folder
+% Add path for video reader function and the utils folder and algos folder
 addpath('./yuv4mpeg2mov');
 addpath('./utils');
+addpath('./Low_Rank_Matrix_Completion');
 
 %% Read the data (video file)
 [video_movie, video_info] = yuv4mpeg2mov('../Data/bus_cif.y4m');               % Read the video file
@@ -33,9 +34,8 @@ video_noisy = add_video_noise(video, num_frames, sigma, kappa, s);
 % % Write the noisy video to a file using the same video parameters as the original video using VideoWriter
 % write_video(video_noisy, '../Data/bus_cif_noisy', video_info);
 
-K = 2;
-num_patch_match = 5;
-% num_blocks = num_frames/K;
+K = 2;                                              % Number of neighbourhood frames to consider
+num_patch_match = 5;                                % Number of patches to match in a frame
 num_frames = 3;
 patch_size = 8;
 threshold_omega = 50;                               % Threshold used for forming omega
@@ -89,7 +89,7 @@ for k = 1:num_frames
             [P_jk, P_jk_indices, row_col_indices] = patch_matching_and_grouping(patch, patch_size, num_patch_match, block_video_ij);
 
             % Generate the omega matrix 
-            [omega , sigma_hat] = Omega_gen(P_jk, threshold_omega);
+            [omega , sigma_hat] = omega_gen(P_jk, threshold_omega);
 
             % Denoise the patches and get the Q matrix
             Q_jk = fix_point_iter(P_jk, omega, size(P_jk,1), size(P_jk,2), sigma_hat);
@@ -100,7 +100,9 @@ for k = 1:num_frames
     end
                                                                 
 end
-denoised_video = denoised_video./denoised_video_counts;
+denoised_video = denoised_video./denoised_video_counts;      % Divide the denoised video by the
+                                                            % denoised video counts to get the 
+                                                            % denoised video
 
 write_video(denoised_video, '../Data/bus_cif_denoised', video_info, num_frames);
 

@@ -1,4 +1,4 @@
-function [output, sigma_hat] = Omega_gen(P, threshold)
+function [output, sigma_hat] = omega_gen(P, threshold)
 %   output is a logical matrix giving reliable pixel indices i.e. Omega
 
     [rows, cols] = size(P);
