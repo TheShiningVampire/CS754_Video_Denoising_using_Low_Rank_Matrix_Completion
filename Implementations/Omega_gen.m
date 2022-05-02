@@ -16,6 +16,6 @@ function [output, sigma_hat] = Omega_gen(P, threshold)
         total_variance = total_variance + variance;
     end
 
-%     sigma_hat = sqrt(total_variance / (rows * cols));
-    sigma_hat = sqrt(total_variance);
+    sigma_hat = sqrt(total_variance / (rows * cols));
+%     sigma_hat = sqrt(total_variance);
 end

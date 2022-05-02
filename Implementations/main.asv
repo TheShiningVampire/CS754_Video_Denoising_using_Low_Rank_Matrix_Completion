@@ -49,7 +49,7 @@ search_pixel_patch = 50;                            % Search pixel patch size
 denoised_video = zeros(H,W,C,num_frames);
 denoised_video_counts = zeros(H,W,C,num_frames);
 
-for k = 1:num_frames
+for k = 3
     disp(k);
     block_start = max(1, k-floor(K/2));
     block_end = block_start + K - 1;
@@ -85,7 +85,7 @@ for k = 1:num_frames
 
             block_video_ij = block_video(height_start:height_end, width_start:width_end, :, :);
 
-            patch = block_video(i:i+patch_size-1, j:j+patch_size-1, :, k - block_start + 1);
+            patch = block_video(i:i+patch_size-1, j:j+patch_size-1, :, k - );
             [P_jk, P_jk_indices, row_col_indices] = patch_matching_and_grouping(patch, patch_size, num_patch_match, block_video_ij);
 
             % Generate the omega matrix 
@@ -102,7 +102,7 @@ for k = 1:num_frames
 end
 denoised_video = denoised_video./denoised_video_counts;
 
-write_video(denoised_video, '../Data/bus_cif_denoised', video_info, num_frames);
+write_video(denoised_video, '../Data/bus_cif_denoised', video_info);
 
 
 
@@ -165,12 +165,12 @@ function noisy_video = add_video_noise(video, num_frames, sigma, kappa, s)
     end
 end
 
-function write_video(video, path, video_info, num_frames)
+function write_video(video, path, video_info)
     % Convert the original video to unint8
     video = uint8(video);
     writerObj = VideoWriter(path);
     writerObj.FrameRate = video_info.fps;
-
+    num_frames = video_info.frameCount;
     open(writerObj);
     for i = 1:num_frames
         writeVideo(writerObj, video(:,:,:,i));
