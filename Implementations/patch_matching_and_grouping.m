@@ -39,9 +39,11 @@ function [patch_matches, patch_indices, row_col_indices] =  patch_matching_and_g
         % Append the patch matches
         patch_matches = [patch_matches, P_jk_frame];
         patch_indices = [patch_indices, P_jk_indices];
+        
+        frame_2D_size = size(frame(:,:,1));
 
         % Find the row and column indices of the patch matches
-        [row_indices, col_indices] = ind2sub(size(frame), P_jk_indices);
+        [row_indices, col_indices] = ind2sub(frame_2D_size, P_jk_indices);
 
         % Form a matrix with row and column indices as tuples
         row_col_indices_t = [row_indices; col_indices]';
