@@ -14,18 +14,22 @@ tic;
 % Get .cdata from the video_movie object
 num_frames = video_info.frameCount;                     % Get the number of frames in the video
 
-scale_factor = 0.5;                                      % Scale factor for the video
+scale_factor = 0.25;                                      % Scale factor for the video
 video = read_video(video_movie, num_frames, scale_factor);            % Read the video as a matrix
                                                         % video ~ [height x width x channel x frame]
 
 % Noise parameters to the video
-sigmas = [50, 10, 10, 10, 10, 10, 10, 10];
-kappas = [15, 25, 5, 5, 5, 5, 30, 30];
-s_ = [0.2, 0.2, 0.2, 0.1, 0.1, 0.4, 0.1, 0.4];
+% sigmas = [50, 10, 10, 10, 10, 10, 10, 10];
+% kappas = [15, 25, 5, 5, 5, 5, 30, 30];
+% s_ = [0.2, 0.2, 0.2, 0.1, 0.1, 0.4, 0.1, 0.4];
+sigmas = [10];
+kappas = [5];
+s_ = [0.1];
+
 data = 'Bus';
 % data = 'Coastguard';
 
-for parameter_index=7:8
+for parameter_index=1
     sigma = sigmas(parameter_index);
     kappa = kappas(parameter_index);
     s = s_(parameter_index);
@@ -33,9 +37,9 @@ for parameter_index=7:8
     % Print method start message
     fprintf('Starting method for sigma = %d, kappa = %d, s = %d\n', sigma, kappa, s);
     
-    K = 10;                                         % Number of neighbourhood frames to consider
+    K = 3;                                         % Number of neighbourhood frames to consider
     num_patch_match = 5;                            % Number of patches to match in a frame
-    num_frames = 10;
+    num_frames = 5;
     patch_size = 8;
     threshold_omega = 50;                           % Threshold used for forming omega
     
@@ -59,7 +63,7 @@ for parameter_index=7:8
 
     search_pixel_patch = 20;                            % Search pixel patch size
 
-    stride = 2;                                         % Stride while moving the pixels while denoising
+    stride = 4;                                         % Stride while moving the pixels while denoising
 
     % Median Filter parameters
     max_window_size = 6;
