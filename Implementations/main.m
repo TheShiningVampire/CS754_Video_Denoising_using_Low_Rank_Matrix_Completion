@@ -14,28 +14,28 @@ tic;
 % Get .cdata from the video_movie object
 num_frames = video_info.frameCount;                     % Get the number of frames in the video
 
-scale_factor = 1;                                      % Scale factor for the video
+scale_factor = 0.5;                                      % Scale factor for the video
 video = read_video(video_movie, num_frames, scale_factor);            % Read the video as a matrix
                                                         % video ~ [height x width x channel x frame]
 
 % Noise parameters to the video
-sigmas = [50, 10];
-kappas = [15, 25];
-s = 0.2;
+sigmas = [50, 10, 10, 10, 10, 10, 10, 10];
+kappas = [15, 25, 5, 5, 5, 5, 30, 30];
+s_ = [0.2, 0.2, 0.2, 0.1, 0.1, 0.4, 0.1, 0.4];
 data = 'Bus';
 % data = 'Coastguard';
 
-for parameter_index=1:2
+for parameter_index=7:8
     sigma = sigmas(parameter_index);
     kappa = kappas(parameter_index);
-    s = s;
+    s = s_(parameter_index);
     
     % Print method start message
     fprintf('Starting method for sigma = %d, kappa = %d, s = %d\n', sigma, kappa, s);
     
     K = 10;                                         % Number of neighbourhood frames to consider
     num_patch_match = 5;                            % Number of patches to match in a frame
-    num_frames = 20;
+    num_frames = 10;
     patch_size = 8;
     threshold_omega = 50;                           % Threshold used for forming omega
     
@@ -59,7 +59,7 @@ for parameter_index=1:2
 
     search_pixel_patch = 20;                            % Search pixel patch size
 
-    stride = 4;                                         % Stride while moving the pixels while denoising
+    stride = 2;                                         % Stride while moving the pixels while denoising
 
     % Median Filter parameters
     max_window_size = 6;
@@ -142,6 +142,7 @@ for parameter_index=1:2
     write_video(denoised_video, strcat('../Results/', data, '/Denoised_video_param_set_', string(parameter_index)), video_info, num_frames);
     % Writing the PSNR values to a txt file
     fileID = fopen(strcat('../Results/', data, '/PSNR_param_set_', string(parameter_index), '.txt'),'w');
+    fprintf(fileID, 'Noisy video : %f\n', PSNR(video, video_noisy, num_frames));
     fprintf(fileID,'Median filtered video: %f\n',PSNR(video, median_filtered_video, num_frames));
     fprintf(fileID,'Denoised video: %f\n',PSNR(video, denoised_video, num_frames));
 end

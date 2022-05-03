@@ -1,0 +1,2 @@
+Median filtered video: 14.778935
+Denoised video: 17.714321

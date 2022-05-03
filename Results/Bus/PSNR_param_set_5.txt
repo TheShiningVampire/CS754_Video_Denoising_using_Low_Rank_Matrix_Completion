@@ -1,3 +1,0 @@
-Noisy video : 13.904347
-Median filtered video: 21.433366
-Denoised video: 21.636790
