@@ -11,6 +11,10 @@
 This project was done as part of the course CS 754: Advanced Image Processing at Indian Institute of Technology, Bombay. In this project, we have implemented a video denoising algorithm using Low Rank Matrix Completion. The algorithm is based on the paper [Robust video denoising using low rank matrix completion](https://ieeexplore.ieee.org/document/5539849).
 
 The results obtained from this project are shown in the following figure.
+![noisy-video-param-set1_4ZEpXnwz](https://user-images.githubusercontent.com/55876739/166801426-96467221-20e6-4db5-968e-3534fbae8445.gif)
+
+![denoised-video-param-set-1_Jj9Hr5fc](https://user-images.githubusercontent.com/55876739/166801442-d9b79c0e-6516-4f72-8490-7546679d691b.gif)
+
 
 ## Getting Started <a name = "getting_started"></a>
 
