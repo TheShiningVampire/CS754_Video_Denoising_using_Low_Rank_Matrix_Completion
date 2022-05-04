@@ -14,6 +14,10 @@ The results obtained from this project are shown in the following figure.
 Noisy video | Median filtered video | Denoised video
 --- | --- | ---
 ![noisy-video-param-set1_4ZEpXnwz](https://user-images.githubusercontent.com/55876739/166801426-96467221-20e6-4db5-968e-3534fbae8445.gif) | ![median-filtered-video-param-set-1_7pjAAWy1](https://user-images.githubusercontent.com/55876739/166802087-8708b47c-ed69-43e1-8e07-788e10178263.gif) | ![denoised-video-param-set-1_Jj9Hr5fc](https://user-images.githubusercontent.com/55876739/166801442-d9b79c0e-6516-4f72-8490-7546679d691b.gif) |
+![noisy-video-param-set1_r75ih9jh](https://user-images.githubusercontent.com/55876739/166802223-40bcafc3-24d4-4748-b296-a411e5b2c39b.gif) | ![median-filtered-video-param-set-1_0AkW8BA8](https://user-images.githubusercontent.com/55876739/166802254-624ce278-f371-4d86-b991-1e0f6e8cf3c8.gif) | ![denoised-video-param-set-1_ZDGQFTRi](https://user-images.githubusercontent.com/55876739/166802289-f1d9423a-7013-468d-8396-860aaa716285.gif)
+
+
+
 
 
 ## Getting Started <a name = "getting_started"></a>
