@@ -5,6 +5,7 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
+- [Contributing](#contributing)
 
 ## About <a name = "about"></a>
 
@@ -29,3 +30,8 @@ For reading the videos written in '.y4m' format, 'yuv4mpeg2mov' package has been
 ## Usage <a name = "usage"></a>
 
 To reproduce the results, run the code in 'Implementaions/main.m'. The code will use the "Bus" dataset included in the Data folder by default. To denoise any other video, change the path to the video in the 'main.m' file. The results obtained will be stored in the 'Results' folder.
+
+## Contributing <a name = "contributing"></a>
+Team members:
+[Vinit Awale](https://github.com/TheShiningVampire)
+[Piyush Bharambe](https://github.com/pi-sky)
